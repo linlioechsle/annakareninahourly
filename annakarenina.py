@@ -36,13 +36,13 @@ list = sent_tokenize(string_no_breaks)
 #tweets!
 for sentence in list:
   for chunk in split_long(sentence, 280):
-    if chunk in 'prev_sentence.txt':
-      continue
+    #if chunk in 'prev_sentence.txt':
+      #continue
     #print('posting\n')
     #print(chunk)
     api.update_status(chunk)
-    with open("last_sentence.txt", "a") as file_object:
-      file_object.write(chunk)
+    #with open("last_sentence.txt", "a") as file_object:
+      #file_object.write(chunk)
     time.sleep(15)
 
 
