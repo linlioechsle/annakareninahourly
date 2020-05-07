@@ -38,6 +38,6 @@ list = sent_tokenize(string_no_breaks)
 for sentence in list:
   for chunk in split_long(sentence, 280):
     api.update_status(chunk)
-    time.sleep(3600)
+    time.sleep(1770)
 
 
