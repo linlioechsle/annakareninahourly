@@ -12,35 +12,22 @@ auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
 auth.set_access_token(ACCESS_KEY, ACCESS_SECRET)
 api = tweepy.API(auth)
 
- 
-#handles big sentences
-prev_sentence = 'last_sentence.txt'
-def split_long(string, length):
-  return (string[0+i:length+i] for i in range(0, len(string), length))
+#source: https://www.reddit.com/r/learnpython/comments/3xuych/least_resource_intensive_way_to_delete_first_line/cy7zm17?utm_source=share&utm_medium=web2x
+def deleteFirstLine():
+  with open('updatedannak.txt', 'r+') as f:
+    f.readline()
+    data = f.read()
+    f.seek(0)
+    f.write(data)
+    f.truncate()
 
-#open book file
-f = open("updatedannak.txt", "r")
-string_no_breaks = ""
+book = open("updatedannak.txt", "r+")
 
-for line in f:
-  line.replace('_', '')
-  stripped_line = line.rstrip()
-  string_no_breaks += stripped_line
-  string_no_breaks += " "
-
-f.close()
-
-#tokenizes book list of strings
-from nltk.tokenize import sent_tokenize, word_tokenize
-list = sent_tokenize(string_no_breaks)
-
-#tweets!
-for sentence in list:
-  for chunk in split_long(sentence, 280):
-   try:
-      api.update_status(chunk)
-   except:
-    continue
-   time.sleep(1770)
-
-
+for line in book:
+  if line != "\n":
+    api.update_status(line)
+    print("Tweeting and removing from file: " + line)
+    deleteFirstLine()
+    time.sleep(1740)
+    
+book.close()
